@@ -2,14 +2,15 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Logo from '@/components/logo';
+import { ThemeSwitcher } from '../theme-switcher';
 
 const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const navigation = [
-    { title: 'Home', path: '/' },
-    { title: 'About', path: '/about' },
-    { title: 'Contact', path: '/contact' },
-    { title: 'Blog', path: '/blog' },
+    { title: 'NavLink1', path: '/navlink1' },
+    { title: 'NavLink2', path: '/navlink2' },
+    { title: 'NavLink3', path: '/navlink3' },
+    { title: 'NavLink4', path: '/navlink4' },
   ];
   const toggleMenu = () => {
     setOpen(!isOpen);
@@ -21,8 +22,7 @@ const Header = () => {
         <div className="flex items-center justify-between py-5 px-4">
           <Logo withText />
           <div className="flex items-center gap-2">
-            {/* <LanguageSwitcher />
-        <ThemeSwitcher /> */}
+         <ThemeSwitcher /> 
             <button className="menu-btn" onClick={toggleMenu}>
               {isOpen ? (
                 <svg
@@ -151,8 +151,7 @@ const Header = () => {
                   />
                 </svg>
               </Link>
-              {/* <LanguageSwitcher />
-          <ThemeSwitcher /> */}
+          <ThemeSwitcher />
             </div>
           </div>
         </div>
