@@ -3,6 +3,9 @@ import { Space_Grotesk } from 'next/font/google';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { ThemeProvider } from '@/components/theme-switcher/theme-provider';
+import {
+  ClerkProvider
+} from '@clerk/nextjs'
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -23,9 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${spaceGrotesk.variable} antialiased bg-white dark:bg-black`}>
-        <ThemeProvider
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${spaceGrotesk.variable} antialiased bg-white dark:bg-black`}>
+          <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
@@ -34,8 +38,9 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
-        </ThemeProvider>
-      </body>
-    </html>
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

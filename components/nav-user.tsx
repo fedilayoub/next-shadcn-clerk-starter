@@ -9,6 +9,7 @@ import {
   Sparkles,
 } from "lucide-react"
 
+import { useClerk } from "@clerk/nextjs"
 import {
   Avatar,
   AvatarFallback,
@@ -40,6 +41,13 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const { signOut } = useClerk()
+  const clerk = useClerk()
+
+  const handleSignOut = async () => {
+    await signOut()
+    clerk.redirectToAfterSignOut()
+  }
 
   return (
     <SidebarMenu>
@@ -102,7 +110,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>
