@@ -16,9 +16,8 @@ const Header = () => {
     setOpen(!isOpen);
   };
   return (
-    <div>
-      {' '}
-      <div className="md:hidden">
+    <>
+      <div className="md:hidden bg-white dark:bg-black">
         <div className="flex items-center justify-between py-5 px-4">
           <Logo withText />
           <div className="flex items-center gap-2">
@@ -87,9 +86,9 @@ const Header = () => {
                       key={idx}
                       className="dark:text-white/70 dark:hover:text-white text-gray-800 hover:text-black"
                     >
-                      <a href={item.path} className="block py-2 text-lg">
+                      <Link href={item.path} className="block py-2 text-lg">
                         {item.title}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -156,7 +155,7 @@ const Header = () => {
           </div>
         </div>
       </nav>
-    </div>
+    </>
   );
 };
 
