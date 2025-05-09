@@ -1,11 +1,8 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
-import Header from '@/components/header';
-import Footer from '@/components/footer';
 import { ThemeProvider } from '@/components/theme-switcher/theme-provider';
-import {
-  ClerkProvider
-} from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs';
+import { LayoutWrapper } from '@/components/layout-wrapper';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -30,14 +27,14 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={`${spaceGrotesk.variable} antialiased bg-white dark:bg-black`}>
           <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          {children}
-          <Footer />
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
           </ThemeProvider>
         </body>
       </html>
