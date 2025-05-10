@@ -1,30 +1,31 @@
 "use client";
 
-import { useSignIn } from "@clerk/nextjs";
 import { useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { useClerk } from "@clerk/nextjs";
 import { AuthLoading } from "@/components/auth-loading";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [stage, setStage] = useState<"request" | "reset">("request");
-  const { signIn, isLoaded, setActive } = useSignIn();
-  const clerk = useClerk();
+  const { 
+    error, 
+    loading, 
+    isLoaded, 
+    successMessage,
+    stage,
+    handleRequestReset, 
+    handleResetPassword 
+  } = useAuth();
 
   if (!isLoaded) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+      <section className="px-4 flex items-center justify-center min-h-screen bg-white dark:bg-black">
         <Card className="w-full max-w-md">
           <CardContent className="pt-6">
             <Suspense fallback={<AuthLoading />}>
@@ -32,59 +33,21 @@ export default function ForgotPasswordPage() {
             </Suspense>
           </CardContent>
         </Card>
-      </div>
+      </section>
     );
   }
 
-  const handleRequestReset = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      await signIn.create({
-        strategy: "reset_password_email_code",
-        identifier: email,
-      });
-      setStage("reset");
-      setSuccessMessage("Reset code sent to your email");
-    } catch (err: any) {
-      console.error("Error:", err);
-      setError(err.errors?.[0]?.message || "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const result = await signIn.attemptFirstFactor({
-        strategy: "reset_password_email_code",
-        code,
-        password,
-      });
-
-      if (result.status === "complete") {
-        setSuccessMessage("Password reset successful!");
-        setActive({ session: result.createdSessionId });
-        clerk.redirectToAfterSignIn();
-      } else {
-        setError("Password reset failed. Please try again.");
-      }
-    } catch (err: any) {
-      console.error("Error:", err);
-      setError(err.errors?.[0]?.message || "An error occurred");
-    } finally {
-      setLoading(false);
+    if (stage === "request") {
+      await handleRequestReset({ email });
+    } else {
+      await handleResetPassword({ email, code, password });
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+    <section className="px-4 flex items-center justify-center min-h-screen bg-white dark:bg-black">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">Reset Password</CardTitle>
@@ -97,7 +60,7 @@ export default function ForgotPasswordPage() {
         </CardHeader>
         <CardContent>
           {stage === "request" ? (
-            <form onSubmit={handleRequestReset} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -124,7 +87,7 @@ export default function ForgotPasswordPage() {
               </Button>
             </form>
           ) : (
-            <form onSubmit={handleResetPassword} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="code">Reset Code</Label>
                 <Input
@@ -174,6 +137,6 @@ export default function ForgotPasswordPage() {
           </div>
         </CardFooter>
       </Card>
-    </div>
+    </section>
   );
 } 

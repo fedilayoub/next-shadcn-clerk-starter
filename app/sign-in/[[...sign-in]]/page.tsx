@@ -1,26 +1,22 @@
 "use client";
 
-import { useSignIn, useClerk } from "@clerk/nextjs";
 import { useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { AuthLoading } from "@/components/auth-loading";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { signIn, isLoaded, setActive } = useSignIn();
-  const clerk = useClerk();
+  const { error, loading, isLoaded, handleSignIn } = useAuth();
 
   if (!isLoaded) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+      <section className="px-4 flex items-center justify-center min-h-screen bg-white dark:bg-black">
         <Card className="w-full max-w-md">
           <CardContent className="pt-6">
             <Suspense fallback={<AuthLoading />}>
@@ -28,43 +24,17 @@ export default function SignInPage() {
             </Suspense>
           </CardContent>
         </Card>
-      </div>
+      </section>
     );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const result = await signIn.create({
-        identifier: email,
-        password,
-      });
-
-      if (result.status === "complete") {
-        if (result.createdSessionId) {
-          setActive({ session: result.createdSessionId });
-          clerk.redirectToAfterSignIn();
-        } else {
-          setError("Account created but couldn't start session. Please sign in.");
-          redirect("/sign-in");
-        }
-      } else {
-        console.error("Sign in failed", result);
-        setError("Sign in failed. Please check your credentials.");
-      }
-    } catch (err: any) {
-      console.error("Error:", err);
-      setError(err.errors?.[0]?.message || "An error occurred during sign in");
-    } finally {
-      setLoading(false);
-    }
+    await handleSignIn({ email, password });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+    <section className="px-4 flex items-center justify-center min-h-screen bg-white dark:bg-black">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">Welcome Back</CardTitle>
@@ -128,6 +98,6 @@ export default function SignInPage() {
           </div>
         </CardFooter>
       </Card>
-    </div>
+    </section>
   );
 } 

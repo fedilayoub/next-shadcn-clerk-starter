@@ -1,15 +1,13 @@
 "use client";
 
-import { useSignUp } from "@clerk/nextjs";
 import { useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { useClerk } from "@clerk/nextjs";
 import { AuthLoading } from "@/components/auth-loading";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SignUpPage() {
   const [firstName, setFirstName] = useState("");
@@ -17,16 +15,19 @@ export default function SignUpPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
-  const { signUp, isLoaded, setActive } = useSignUp();
-  const clerk = useClerk();
+  const { 
+    error, 
+    loading, 
+    isLoaded, 
+    pendingVerification,
+    handleSignUp, 
+    verifyEmail 
+  } = useAuth();
 
   if (!isLoaded) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+      <section className="px-4 flex items-center justify-center min-h-screen bg-white dark:bg-black">
         <Card className="w-full max-w-md">
           <CardContent className="pt-6">
             <Suspense fallback={<AuthLoading />}>
@@ -34,73 +35,28 @@ export default function SignUpPage() {
             </Suspense>
           </CardContent>
         </Card>
-      </div>
+      </section>
     );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const result = await signUp.create({
-        firstName,
-        lastName,
-        username,
-        emailAddress: email,
-        password,
-      });
-
-      if (result.status === "missing_requirements") {
-        await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-        setPendingVerification(true);
-      } else if (result.status === "complete") {
-        redirect("/dashboard");
-      } else {
-        console.error("Sign up failed", result);
-        setError("Sign up failed. Please try again.");
-      }
-    } catch (err: any) {
-      console.error("Error:", err);
-      setError(err.errors?.[0]?.message || "An error occurred during sign up");
-    } finally {
-      setLoading(false);
-    }
+    await handleSignUp({
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    });
   };
 
-  const verifyEmail = async (e: React.FormEvent) => {
+  const handleVerifyEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      const result = await signUp.attemptEmailAddressVerification({
-        code,
-      });
-
-      if (result.status === "complete") {
-        if (result.createdSessionId) {
-          setActive({ session: result.createdSessionId });
-          clerk.redirectToAfterSignUp();
-        } else {
-          setError("Account created but couldn't start session. Please sign in.");
-         clerk.redirectToAfterSignUp();
-        }
-      } else {
-        console.error("Verification failed", result);
-        setError("Verification failed. Please try again.");
-      }
-    } catch (err: any) {
-      console.error("Error:", err);
-      setError(err.errors?.[0]?.message || "An error occurred during verification");
-    } finally {
-      setLoading(false);
-    }
+    await verifyEmail(code);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+    <section className="px-4 flex items-center justify-center min-h-screen bg-white dark:bg-black">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">Create an Account</CardTitle>
@@ -189,7 +145,7 @@ export default function SignUpPage() {
               </Button>
             </form>
           ) : (
-            <form onSubmit={verifyEmail} className="space-y-4">
+            <form onSubmit={handleVerifyEmail} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="code">Verification Code</Label>
                 <Input
@@ -225,6 +181,6 @@ export default function SignUpPage() {
           </div>
         </CardFooter>
       </Card>
-    </div>
+    </section>
   );
 } 
