@@ -4,8 +4,7 @@ import Link from 'next/link';
 const Logo = ({ withText }: { withText?: boolean }) => {
     
   return (
-    <div className="flex items-center justify-between py-5 md:block">
-      <Link href="/" className="flex justify-start gap-1">
+      <Link title="Home link" href="/" className="flex justify-start gap-0.5 min-w-fit">
         <Image
           src="/images/logo_light.svg"
           width={40}
@@ -21,10 +20,9 @@ const Logo = ({ withText }: { withText?: boolean }) => {
           alt="Starter logo"
         />
         {withText && (
-          <p className="text-black dark:text-white font-semibold">tarter</p>
+          <p className="flex items-center text-black dark:text-white font-semibold text-md">tarter</p>
         )}
       </Link>
-    </div>
   );
 };
 
