@@ -1,7 +1,7 @@
 "use client";
 
 import { useSignUp } from "@clerk/nextjs";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
+import { AuthLoading } from "@/components/auth-loading";
 
 export default function SignUpPage() {
   const [firstName, setFirstName] = useState("");
@@ -24,7 +25,17 @@ export default function SignUpPage() {
   const clerk = useClerk();
 
   if (!isLoaded) {
-    return null;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6">
+            <Suspense fallback={<AuthLoading />}>
+              <AuthLoading />
+            </Suspense>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
