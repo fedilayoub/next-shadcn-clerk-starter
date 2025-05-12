@@ -27,36 +27,36 @@ const data = {
   navMain: [
     {
       title: "With Sub Items",
-      url: "#",
+      url: "/dashboard",
       icon: LayoutDashboard,
       isActive: true,
       items: [
         {
           title: "Sub Item 1",
-          url: "#",
+          url: "/with-subitems/sub-item-1",
         },
         {
           title: "Sub Item 2",
-          url: "#",
+          url: "/with-subitems/sub-item-2",
         },
         {
           title: "Sub Item 3",
-          url: "#",
+          url: "/with-subitems/sub-item-3",
         },
       ],
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings2,
       items: [
         {
           title: "General",
-          url: "#",
+          url: "/settings/general",
         },
         {
           title: "Billing",
-          url: "#",
+          url: "/settings/billing",
         },
       ],
     },
