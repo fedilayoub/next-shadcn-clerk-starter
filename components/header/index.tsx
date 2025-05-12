@@ -126,9 +126,9 @@ const Header = () => {
                   key={idx}
                   className="dark:text-white/70 dark:hover:text-white text-gray-800 hover:text-black"
                 >
-                  <a href={item.path} className="block">
+                  <Link href={item.path} className="block">
                     {item.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

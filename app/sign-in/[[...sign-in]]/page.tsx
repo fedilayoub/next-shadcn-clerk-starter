@@ -83,7 +83,7 @@ export default function SignInPage() {
         <CardFooter className="flex flex-col space-y-2">
           <Link 
             href="/forgot-password"
-            className="text-sm text-gray-600 hover:text-white"
+            className="text-sm text-gray-600 hover:text-primary dark:hover:text-white"
           >
             Forgot your password?
           </Link>
