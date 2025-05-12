@@ -1,13 +1,17 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+"use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { useTheme } from "next-themes";
 
 export default function GeneralSettingsPage() {
+  const { theme, setTheme } = useTheme();
+
   return (
     <div className="flex flex-1 flex-col gap-6">
       <h1 className="text-2xl font-bold">General Settings</h1>
-      
+
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Profile Information</h2>
@@ -22,31 +26,45 @@ export default function GeneralSettingsPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Preferences</h2>
           <div className="rounded-lg border p-4 space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label className="text-base" htmlFor="notifications">Email Notifications</Label>
-                <p className="text-sm text-muted-foreground">Receive email notifications about account activity</p>
+                <Label className="text-base" htmlFor="notifications">
+                  Email Notifications
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Receive email notifications about account activity
+                </p>
               </div>
               <Switch id="notifications" defaultChecked />
             </div>
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <Label className="text-base" htmlFor="dark-mode">Dark Mode</Label>
-                <p className="text-sm text-muted-foreground">Enable dark mode for the application</p>
+                <Label className="text-base" htmlFor="dark-mode">
+                  Dark Mode
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Enable dark mode for the application
+                </p>
               </div>
-              <Switch id="dark-mode" />
+              <Switch
+                id="dark-mode"
+                checked={theme === "dark"}
+                onCheckedChange={() =>
+                  setTheme(theme === "dark" ? "light" : "dark")
+                }
+              />
             </div>
           </div>
         </div>
       </div>
-      
+
       <div className="flex justify-end">
         <Button>Save Changes</Button>
       </div>
     </div>
-  )
-} 
+  );
+}
