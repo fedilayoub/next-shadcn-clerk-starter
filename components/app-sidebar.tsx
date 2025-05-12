@@ -7,6 +7,7 @@ import {
   PieChart,
   Settings2,
 } from "lucide-react"
+import { useUser } from "@clerk/nextjs"
 
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
@@ -23,11 +24,6 @@ import Logo from "@/components/logo"
 import { cn } from "@/lib/utils"
 // This is sample data.
 const data = {
-  user: {
-    name: "John Doe",
-    email: "john@doe.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "With Sub Items",
@@ -81,6 +77,15 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { state } = useSidebar()
+  const { user } = useUser()
+  
+  if (!user) return null
+  
+  const userData = {
+    name: user.fullName || user.username || 'Unknown',
+    email: user.primaryEmailAddress?.emailAddress || 'john@doe.com',
+    avatar: user.imageUrl || '/avatars/shadcn.jpg',
+  }
   
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -92,7 +97,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
