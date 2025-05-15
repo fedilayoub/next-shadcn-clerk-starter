@@ -1,5 +1,6 @@
 {
   "name": "next-shadcn-clerk-starter",
+  "author": "Fedil Ayoub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
