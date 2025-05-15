@@ -161,7 +161,7 @@ export default function SignUpPage() {
               )}
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full cursor-pointer"
                 disabled={loading}
               >
                 {loading ? "Verifying..." : "Verify Email"}
