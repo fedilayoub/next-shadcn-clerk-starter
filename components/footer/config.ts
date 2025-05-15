@@ -26,9 +26,9 @@ export const footerConfig = {
     {
       title: "Title 2",
       items: [
-        { title: "Subtitle 1", href: "mailto:example@example.com" },
-        { title: "Subtitle 2", href: "https://twitter.com/example" },
-        { title: "Subtitle 3", href: "https://github.com/example" },
+        { title: "Subtitle 1", href: "/subtitle1" },
+        { title: "Subtitle 2", href: "/subtitle2" },
+        { title: "Subtitle 3", href: "/subtitle3" },
       ],
     },
     {
