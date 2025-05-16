@@ -15,7 +15,7 @@ This starter template solves common authentication challenges and provides a sol
 
 ## Tech Stack
 
-- **Framework**: Next.js 15.3.1
+- **Framework**: Next.js 15
 - **Authentication**: Clerk
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui + Radix UI primitives
