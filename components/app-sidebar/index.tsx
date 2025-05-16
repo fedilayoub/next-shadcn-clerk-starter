@@ -10,7 +10,7 @@ import {
 import { useUser } from "@clerk/nextjs"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
+import { TopNav } from "@/components/top-nav"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -93,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Logo withText={state === "expanded"} />
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.items} />
+        <TopNav items={data.items} />
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>

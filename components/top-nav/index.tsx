@@ -11,10 +11,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
-export function NavProjects({
-  projects,
+export function TopNav({
+  items,
 }: {
-  projects: {
+  items: {
     name: string
     url: string
     icon: LucideIcon
@@ -24,7 +24,7 @@ export function NavProjects({
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarMenu>
-        {projects.map((item) => (
+        {items.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <Link href={item.url}>
