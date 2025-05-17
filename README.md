@@ -12,9 +12,13 @@ This starter template solves common authentication challenges and provides a sol
 - Complete authentication flows (Sign In, Sign Up, Password Reset) using custom clerk auth components
 - Email verification system
 - Responsive and accessible UI components
+- Multiple demo pages ready to customize for your specific needs
 - Dark/Light mode theming
 - TypeScript support
 - Modern development tools
+
+  ![starter_dash](https://github.com/user-attachments/assets/eeda326a-15b5-4eea-aa77-a16ec48a73f9)
+
 
 ## Tech Stack
 
