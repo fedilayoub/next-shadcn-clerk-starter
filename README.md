@@ -1,17 +1,24 @@
 # Next.js SAAS Starter Template 
 
-A modern, production-ready authentication starter template built with Next.js 15, Clerk, and shadcn/ui components. This template provides everything you need to quickly bootstrap a web application with secure authentication, beautiful UI components, and best practices built-in.
+A modern starter template built with Next.js 15, Clerk, and shadcn/ui components. This template provides everything you need to quickly bootstrap a web application with secure authentication, beautiful UI components, and best practices built-in.
+
+![starter](https://github.com/user-attachments/assets/ea030114-653d-4a8b-88e3-d52bb772e553)
+
 
 ## Overview
 
 This starter template solves common authentication challenges and provides a solid foundation for building web applications. It includes:
 
-- Complete authentication flows (Sign In, Sign Up, Password Reset)
+- Complete authentication flows (Sign In, Sign Up, Password Reset) using custom clerk auth components
 - Email verification system
 - Responsive and accessible UI components
+- Multiple demo pages ready to customize for your specific needs
 - Dark/Light mode theming
 - TypeScript support
 - Modern development tools
+
+  ![starter_dash](https://github.com/user-attachments/assets/eeda326a-15b5-4eea-aa77-a16ec48a73f9)
+
 
 ## Tech Stack
 
